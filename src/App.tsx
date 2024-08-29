@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import './App.css';
 import { SpotDetails } from '../types/StudySpots'
 import NewSpotForm from './components/NewSpotForm';
+import { supabase } from '../utils/supabase'
+
 
 function App() {
 
@@ -10,6 +12,15 @@ function App() {
     setMySpots([...mySpots, newSpot]);
     console.log(newSpot) //TODO: delete once complete
   };
+
+  useEffect(() => {
+    async function getMySpots() {
+      const { data: mySpotsData } = await supabase.from('mySpots').select()
+
+      setMySpots(mySpotsData);
+    }
+    getMySpots();
+  }, [])
 
   return (
     <div className="App">
