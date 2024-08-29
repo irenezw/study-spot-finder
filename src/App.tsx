@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form'
-import logo from './logo.svg';
 import './App.css';
 
-type Inputs = {
+type SpotDetails = {
   spotName: string;
   address: string;
   parkingDifficulty?: string;
@@ -17,47 +16,61 @@ type Inputs = {
 }
 function App() {
 
-  const [mySpots, setMySpots] = useState([])
+  const [mySpots, setMySpots] = useState<SpotDetails[]>([])
 
+  const addNewSpot = (newSpot: SpotDetails): void => {
+    setMySpots([...mySpots, newSpot]);
+  };
 
   return (
     <div className="App">
       <p>Study Spots</p>
-      <NewSpotForm />
-      {/* <MySpotsList /> */}
+      <NewSpotForm addNewSpot={addNewSpot}/>
+      <MySpotsList mySpots={mySpots} />
     </div>
   );
 }
 
-// const MySpotsList = (mySpots) => (
-//   {mySpots.map(spot => (
-//     <p>{spot}</p>
-//   ))}
-// )
+const MySpotsList: React.FC<{
+  mySpots: SpotDetails[];
+}> = ( { mySpots } ) => (
+  <div>
+    {mySpots.map(spot =>
+      <p>{spot.spotName}</p>
+    )}
+  </div>
+)
 
-const NewSpotForm: React.FC = () => {
-  const [parkingComments, setParkingComments] = useState('')
-  const [favoriteOrder, setFavoriteOrder] = useState('')
+const List: React.FC<{
+  items: string[];
+  onClick?: (item: string) => void;
+}> = ({ items, onClick }) => (
+  <ul>
+    {items.map((item, index) => (
+      <li key={index} onClick={() => onClick?.(item)}>{item} </li>
+    ))}
+  </ul>
+)
+
+const NewSpotForm: React.FC<{
+  addNewSpot: (spot: SpotDetails) => void;
+}> = ( { addNewSpot }) => {
+  // const [spotName,]
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<Inputs>()
+  } = useForm<SpotDetails>()
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<SpotDetails> = (data) => addNewSpot(data)
 
   return (
     <form
+      className="new-spot-form"
       onSubmit={handleSubmit(onSubmit)}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '50%',
-        alignItems: 'center',
-        margin: '0 auto',
-        backgroundColor: 'pink',
-      }}>
+    >
       {/* NAME */}
       <label>Spot Name:
         <input {...register("spotName")} />
@@ -106,9 +119,7 @@ const NewSpotForm: React.FC = () => {
       </label>
       <label>
         <input
-          type="text"
           placeholder='advice on parking'
-          value={parkingComments}
           {...register('parkingDifficulty')}
         />
       </label>
@@ -170,9 +181,7 @@ const NewSpotForm: React.FC = () => {
       </label>
       <label>
         <input
-          type="text"
           placeholder='comments on seating'
-          value={favoriteOrder}
           {...register('seating')}
         />
       </label>
@@ -208,8 +217,6 @@ const NewSpotForm: React.FC = () => {
       <label>Your favorite order:
         <input
           type="text"
-          placeholder='your favorite order'
-          value={favoriteOrder}
           {...register('favoriteOrder')}
         />
       </label>
