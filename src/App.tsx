@@ -9,9 +9,25 @@ import { supabase } from './utils/supabase'
 function App() {
 
   const [mySpots, setMySpots] = useState<SpotDetails[]>([])
-  const addNewSpot = (newSpot: SpotDetails): void => {
+  const addNewSpot = async (newSpot: SpotDetails): Promise<void> => {
     setMySpots(prevSpots => prevSpots ? [...prevSpots, newSpot] : [newSpot]);
+
+
+    const { data, error } = await supabase
+      .from('my_spots')
+      .insert({
+        spot_name: newSpot.spot_name,
+        address: newSpot.address,
+        parking_difficulty: newSpot.parking_difficulty,
+        ambiance: newSpot.ambiance,
+        seating: newSpot.seating,
+        outlets: newSpot.outlets,
+        favorite_order: newSpot.favorite_order,
+        overall_rating: newSpot.overall_rating,
+      })
+      .select('*') as { data: SpotDetails[] | null, error: any }
   };
+
 
   useEffect(() => {
     async function getMySpots() {

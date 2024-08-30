@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { SpotDetails } from '../types/StudySpots'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { supabase } from '../utils/supabase';
 
 
 export const NewSpotForm: React.FC<{
   addNewSpot: (spot: SpotDetails) => void;
-}> = ( { addNewSpot }) => {
+}> = ({ addNewSpot }) => {
 
   const {
     register,
@@ -13,6 +14,8 @@ export const NewSpotForm: React.FC<{
     watch,
     formState: { errors },
   } = useForm<SpotDetails>()
+
+
 
   const onSubmit: SubmitHandler<SpotDetails> = (data) => addNewSpot(data)
 
@@ -23,13 +26,13 @@ export const NewSpotForm: React.FC<{
     >
       {/* NAME */}
       <label>Spot Name:
-        <input {...register("spot_name", {required: true})} />
+        <input {...register("spot_name", { required: true })} />
         {errors.spot_name && <span className="missing-field">This field is required</span>}
       </label>
 
       {/* ADDRESS */}
       <label>Address:
-        <input {...register("address", {required: true})} />
+        <input {...register("address", { required: true })} />
         {errors.address && <span className="missing-field">This field is required</span>}
       </label>
 
