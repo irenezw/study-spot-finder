@@ -1,11 +1,10 @@
 export type SpotDetails = {
-  spotName: string;
+  spot_name: string;
   address: string;
-  parkingDifficulty?: string;
+  parking_difficulty?: string;
   ambiance?: string;
   seating?: string;
   outlets?: string;
-  favoriteOrder?: string;
-  photos?: File;
-  overallRating?: number;
+  favorite_order?: string;
+  overall_rating?: number;
 }
