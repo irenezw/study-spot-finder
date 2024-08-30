@@ -15,7 +15,7 @@ function App() {
 
   useEffect(() => {
     async function getMySpots() {
-      const { data: mySpotsData } = await supabase.from('mySpots').select()
+      const { data: mySpotsData } = await supabase.from('my_spots').select()
       console.log(mySpotsData)
     }
     getMySpots();
