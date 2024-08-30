@@ -17,8 +17,11 @@
 .new-spot-form {
   display: flex;
   flex-direction: column;
-  width: 50%;
   align-items: center;
   margin: 0 auto;
   background-color: pink;
+}
+
+.spot-list-item {
+  background-color: bisque;
 }
