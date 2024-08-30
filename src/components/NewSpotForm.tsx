@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SpotDetails } from '../../types/StudySpots'
+import { SpotDetails } from '../types/StudySpots'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 

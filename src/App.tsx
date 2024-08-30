@@ -1,26 +1,25 @@
 import React, { useState, useEffect} from 'react';
 import './App.css';
-import { SpotDetails } from '../types/StudySpots'
+import { SpotDetails } from './types/StudySpots'
 import NewSpotForm from './components/NewSpotForm';
-import { supabase } from '../utils/supabase'
+import { supabase } from './utils/supabase'
 
 
 function App() {
 
   const [mySpots, setMySpots] = useState<SpotDetails[]>([])
   const addNewSpot = (newSpot: SpotDetails): void => {
-    setMySpots([...mySpots, newSpot]);
-    console.log(newSpot) //TODO: delete once complete
+    setMySpots(prevSpots => prevSpots ? [...prevSpots, newSpot] : [newSpot]);
+    console.log(newSpot); // TODO: delete once complete
   };
 
   useEffect(() => {
     async function getMySpots() {
       const { data: mySpotsData } = await supabase.from('mySpots').select()
-
-      setMySpots(mySpotsData);
+      console.log(mySpotsData)
     }
     getMySpots();
-  }, [])
+  }, )
 
   return (
     <div className="App">
