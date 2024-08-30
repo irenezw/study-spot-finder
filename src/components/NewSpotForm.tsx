@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { SpotDetails } from '../../types/StudySpots'
+import { SpotDetails } from '../types/StudySpots'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { supabase } from '../utils/supabase';
 
 
 export const NewSpotForm: React.FC<{
   addNewSpot: (spot: SpotDetails) => void;
-}> = ( { addNewSpot }) => {
-  // const [spotName,]
+}> = ({ addNewSpot }) => {
 
   const {
     register,
@@ -14,6 +14,8 @@ export const NewSpotForm: React.FC<{
     watch,
     formState: { errors },
   } = useForm<SpotDetails>()
+
+
 
   const onSubmit: SubmitHandler<SpotDetails> = (data) => addNewSpot(data)
 
@@ -24,12 +26,14 @@ export const NewSpotForm: React.FC<{
     >
       {/* NAME */}
       <label>Spot Name:
-        <input {...register("spotName")} />
+        <input {...register("spot_name", { required: true })} />
+        {errors.spot_name && <span className="missing-field">This field is required</span>}
       </label>
 
       {/* ADDRESS */}
       <label>Address:
-        <input {...register("address")} />
+        <input {...register("address", { required: true })} />
+        {errors.address && <span className="missing-field">This field is required</span>}
       </label>
 
       {/* PARKING */}
@@ -40,7 +44,7 @@ export const NewSpotForm: React.FC<{
         <input
           type="checkbox"
           value="easy"
-          {...register('parkingDifficulty')}
+          {...register('parking_difficulty')}
         />
         easy
       </label>
@@ -48,7 +52,7 @@ export const NewSpotForm: React.FC<{
         <input
           type="checkbox"
           value="hard"
-          {...register('parkingDifficulty')}
+          {...register('parking_difficulty')}
         />
         hard
       </label>
@@ -56,7 +60,7 @@ export const NewSpotForm: React.FC<{
         <input
           type="checkbox"
           value="free"
-          {...register('parkingDifficulty')}
+          {...register('parking_difficulty')}
         />
         free
       </label>
@@ -64,14 +68,14 @@ export const NewSpotForm: React.FC<{
         <input
           type="checkbox"
           value="paid"
-          {...register('parkingDifficulty')}
+          {...register('parking_difficulty')}
         />
         paid
       </label>
       <label>
         <input
           placeholder='advice on parking'
-          {...register('parkingDifficulty')}
+          {...register('parking_difficulty')}
         />
       </label>
 
@@ -168,7 +172,7 @@ export const NewSpotForm: React.FC<{
       <label>Your favorite order:
         <input
           type="text"
-          {...register('favoriteOrder')}
+          {...register('favorite_order')}
         />
       </label>
 
@@ -178,27 +182,27 @@ export const NewSpotForm: React.FC<{
         <input
           type="radio"
           value="1"
-          {...register('overallRating')}
+          {...register('overall_rating')}
         />
         <input
           type="radio"
           value="2"
-          {...register('overallRating')}
+          {...register('overall_rating')}
         />
         <input
           type="radio"
           value="3"
-          {...register('overallRating')}
+          {...register('overall_rating')}
         />
         <input
           type="radio"
           value="4"
-          {...register('overallRating')}
+          {...register('overall_rating')}
         />
         <input
           type="radio"
           value="5"
-          {...register('overallRating')}
+          {...register('overall_rating')}
         />
       </label>
 
